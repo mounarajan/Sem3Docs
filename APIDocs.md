@@ -139,8 +139,7 @@ The response text for error conditions typically contains two fields in the supp
 
 # 02 **Categories**
 
----
-### Importance 
+### Importance
 
 
  
