@@ -141,6 +141,124 @@ The response text for error conditions typically contains two fields in the supp
 
 ### Importance
 
+This API covers data across a wide range of product categories including pet supplies, electronics and vehicles, to name a few. Your application is, however, likely to require data from only a handful of categories. 
+
+The category tree, addressed in this section, allows you to narrow your searches to only those product categories that interest you, thereby giving you the benefit of **relevant search results** and **low API query response times**.
+
+### The Category Tree 
+
+All products in the Semantics3 database are provided with a category ID (**cat_id**) parameter which identifies the nature of the product. These categories are laid out in the form of a multi-level category tree, with each category possessing a parent, a child, or both. 
+
+Here is a segment of the tree from the “Electronics” branch. The number provided in brackets is the unique cat_id that identifies the given category name.
+
+<pre><code>1.  Electronics (13658)
+    2.  Accessories & Supplies (16055)
+    2.  Camera & Photo (20773)
+    2.  Television & Video (399)
+    2.  Portable Audio & Video (17761)
+    2.  Service & Replacement Plans (979)
+    2.  Security & Surveillance (1124)
+    2.  Car & Vehicle Electronics (18623)
+    2.  Electronics Warranties (1061)
+    2.  Computers & Accessories (4992)
+        3.  External Data Storage (10562)
+        3.  Desktops (4672)
+        3.  External Components (2870)
+        3.  Tablets (23042)
+        3.  Printers (12091)
+          4.  Laser Printers (23702)
+          4.  Inkjet Printers (12151)
+          4.  Dot Matrix Printers (23905)
+          4.  All-In-One Printers (24768)
+          4.  Photo Printers (1202)
+          4.  Plotters (16398)
+        3.  Scanners (14047)
+        3.  Webcams (5858)
+        3.  Servers (2534)
+        3.  Video Projectors (13932)
+        3.  Networking Products (3235)
+        3.  Netbooks (23130)
+        3.  Warranties & Services (23681)
+        3.  PDAs, Handhelds & Accessories (13918)
+        3.  Monitors (12460)
+        3.  Computer Components (22208)
+        3.  Game Hardware (5467)
+        3.  Laptops (12855)
+        3.  Computer Accessories (5660)
+    2.  eBook Readers & Accessories (10100)
+    2.  GPS & Navigation </code></pre>
+
+In this example, “Electronics” is the highest parent category, those with an index of “2” are immediate children, those with an index of “3” are grand children and so on.
+
+As mentioned, each product is tagged with a cat_id, which may lie at any level of the tree; the lower down the tree a given cat_id of a product, the more specific the categorization of that product. 
+
+### Using “cat_id” [IMPORTANT] 
+
+Let’s say your interest in the API only concerns electronics products; by including the following filter, you can restrict your API responses to the “Electronics” field:
+
+<pre><code>GET https://api.semantics3.com/v1/products?q={"cat_id":13658,"name":"NAME"}</code></pre>
+
+where the ID 13658 refers to “Electronics”. The “name” parameter, used here as a placeholder, is one of the several query parameters that will be discussed in detail later in the document.
+
+This filter will ensure that the search responses are limited to products that either:
+
+- Have **exactly** the specified cat_id, or,
+
+- Have a cat_id that is a **child** of the specified cat_id (i.e., in this example, all children of “Electronics” including all the fields listed in the sample category tree above).
+
+Mosts queries to the Semantics3 products API require that you supply a cat_id field. Refer to this [update](https://www.semantics3.com/docs/#update-1-upc-lookups-91) for details.	
+
+Currently, you can only search amongst one category of products at a time; we will be introducing the ability to search amongst multiple categories in future versions of the API. If you’d like urgent beta access to this functionality, please contact us at [api@semantics3.com](mailto:api@semantics3.com).
+
+### Category Tree Endpoint 
+
+Just as “Electronics” is identified by cat_id “13658″, every category in the category is associated with a unique cat_id; these IDs can be determined by querying the category tree, in one of the following three ways:
+
+Specify the **name** of the category that you’re interested in and obtain a list of similarly named categories:
+
+<pre><code>GET https://api.semantics3.com/v1/categories?q={"name":NAME}</code></pre>
+
+If you’d like to view category details associated with a **specific cat_id**:
+
+<pre><code>GET https://api.semantics3.com/v1/categories?q={"show_cat_id":CAT_ID}</code></pre>
+
+Retrieve all the immediate children associated with a given **parent category**; this can help in moving down the category tree or simply in better understanding the context of a particular category:
+
+<pre><code>GET https://api.semantics3.com/v1/categories?q={"parent_cat_id":PARENT_CAT_ID}</code></pre>
+
+The very first level of the tree can be obtained by setting PARENT_CAT_ID to 1 in the query above. This query will return IDs of the following categories.
+
+<pre><code>1.   Appliances (18892)
+2.   Arts, Crafts & Sewing (20717)
+3.   Baby Products (21995)
+4.   Beauty (13157)
+5.   Books (12597)
+6.   Clothing & Accessories (17366)
+7.   Electronics (13658)
+8.   Footwear (8551)
+9.   Grocery & Gourmet Food (18203)
+10.  Health & Personal Care (17534)
+11.  Home & Kitchen (12908)
+12.  Industrial & Scientific (23767)
+13.  Jewelry (4798)
+14.  Mobile Phones (915)
+15.  Movies & TV (15532)
+16.  Music (18735)
+17.  Musical Instruments (24271)
+18.  Office Products (9205)
+19.  Patio & Garden (4702)
+20.  Pet Care (6411)
+21.  Software (10539)
+22.  Sporting Equipment (2717)
+23.  Tools & Home Improvement (21949)
+24.  Toys & Games (16279)
+25.  Vehicles (934)
+26.  Video Games (11932)</code></pre>
+
+The categories shown above lie at the top of the category tree. All other categories in the tree are children of one of these categories (hence, if you wish to keep your product searches as broad as possible, specify the cat_id of one of the above categories in your searches). In order to explore the entire tree step-by-step, execute the query above with parent_cat_id as 1, extract the cat_ids of each of the children and recursively iterate through the tree.
+
+*Note*: The cat_id “1″ is a pseudo category used for the purpose of displaying the first level of the category tree and should not be used for requests made using the primary API endpoint.
+
 
  
 
