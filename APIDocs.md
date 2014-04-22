@@ -63,6 +63,8 @@
 
 ---
 
+
+
 ### About
 
 This page contains detailed technical documentation for **Version 1** of the **Semantics3 Products API**. Refer to our [Quick Start Guide](http://www.semantics3.com/quickstart) if you are just getting started.
@@ -84,7 +86,7 @@ We also provide a **testing/development endpoint** to make it easy for you to ge
 The following is a sample Semantics3 API request:
 
 
-   <pre><code> GET https://api.semantics3.com/v1/products?q= {"cat_id":13658,"brand":"Toshiba",
+   <pre><code> GET https://api.semantics3.com/v1/products?q={"cat_id":13658,"brand":"Toshiba",
 "model":"Satellite"}</code></pre>
 
 Query fields and mechanisms are described in detailed in further sections.
