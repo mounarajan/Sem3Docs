@@ -141,6 +141,13 @@ The response text for error conditions typically contains two fields in the supp
 - All string fields must be enclosed within double quotes.
 - Complex queries are to be constructed by separating multiple query parameters with commas, as is the standard JSON convention.
 
+# 02 **Categories**
+
+---
+
+
+### Importance 
+
 
  
 
