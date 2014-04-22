@@ -1,23 +1,15 @@
 # Table of Contents
+
 ### 01. The Basics
 - About
-
 - Primary API Endpoint
-
 - Sample Call
-
 - REST-ful API
-
 - JSON Responses
-
 - 1-legged OAuth 1.0 Authentication
-
 - Throttling
-
 - URL Encoding
-
 - Error Codes
-
 - Notes about Common Mistakes
 
 ### 02. Categories
@@ -80,7 +72,6 @@ We also provide a **testing/development endpoint** to make it easy for you to ge
 ### Sample Call 
 
 The following is a sample Semantics3 API request:
-
 
    <pre><code> GET https://api.semantics3.com/v1/products?q={"cat_id":13658,"brand":"Toshiba","model":"Satellite"}</code></pre>
 
