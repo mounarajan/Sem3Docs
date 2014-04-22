@@ -63,7 +63,6 @@
 
 ---
 
-
 ### About
 
 This page contains detailed technical documentation for **Version 1** of the **Semantics3 Products API**. Refer to our [Quick Start Guide](http://www.semantics3.com/quickstart) if you are just getting started.
