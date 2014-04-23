@@ -250,6 +250,49 @@ The categories shown above lie at the top of the category tree. All other catego
 
 *Note*: The cat_id “1″ is a pseudo category used for the purpose of displaying the first level of the category tree and should not be used for requests made using the primary API endpoint.
 
+# 03 **Metadata Fields**
+
+### Skeleton of a Typical Response 
+
+The following is a skeleton of a typical response obtained from the Semantics3 Products API. 
+
+<pre><code>{
+   "cat_id":"<CAT_ID>",
+   "category":"<CATEGORYNAME>",
+   "sem3_id":"<SEM3_ID>",
+   "name":"NAME",
+   "upc":"<UPC>",
+   "weight":"<WEIGHT>",
+   "updated_at":"<UPDATED_AT>",
+   "brand":"<BRAND>",
+   ......,
+   ......,
+   ......,
+   ......,
+   ......,
+   "sitedetails":
+   [
+      {
+         "sku":"<SKU>",
+         "latestoffers":
+         [
+            {
+               "currency":"<CURRENCY>",
+               "id":"<OFFER_ID>",
+               "price":"<PRICE>"
+            },
+            ......,
+            ......,
+            ......
+         ]
+        ......,
+        ......
+      }
+   ]
+}</code></pre>
+
+
+
 
  
 
