@@ -345,6 +345,94 @@ where FIELDNAME refers to the field name and VALUE is your query input. The cat_
 | *weight* | Weight of the product(In milligrams).| Double | Y | Range | {“weight”:{“gt”:250,”lt”:500}} |
 | *width* | Width of the product (in millimeters).| Double | Y | Range | {“width”:250} |
 
+### Section 2 (Sitedetails Fields) 
+
+The fields described in the [previous section](https://www.semantics3.com/docs/#section-1-universal-fields-37) are universal to the product, i.e., they do not change on the basis of who is selling the product and where the product is being sold.
+
+**This section** tackles fields such as price and product availability, which are highly specific to the websites on which the product is being sold. These fields are organized under the “sitedetails” tag.
+
+Here is an example of a sitedetails response:
+
+<pre><code>"sitedetails": [
+               {
+                   "latestoffers": [
+                       {
+                           "currency": "USD",
+                           "id": "3iNRIZGppAyGuyywOmkEqM",
+                           "price": "7.95",
+                           "firstrecorded_at": "2012-09-13T20:20:47Z",
+                           "lastrecorded_at": "2012-09-15T12:36:54Z",
+                           "seller": "Joe Shop"
+                       },
+                       {
+                           "currency": "USD",
+                           "id": "7iNEIZGuykEqMQywOmpAyG",
+                           "price": "10.99",
+                           "shipping" : "1.99",
+                           "firstrecorded_at": "2012-11-07T10:00:23Z",
+                           "lastrecorded_at": "2013-01-31T07:14:11Z",
+                           "availability": "2 items in stock. Ships in 24 hours",
+                           "condition": "New"
+                       }
+                   ],
+                   "name": "amazon.com",
+                   "offers_count": 2,
+                   "recentoffers_count": 1,
+                   "sku": "B0000CF3HB",
+                   "url": "http://www.amazon.com/dp/B0000CF3HB"
+               },
+               {
+                   "name": "newegg.com",
+                   "latestoffers": [
+                       {
+                           ......,
+                           ......,
+                           ......
+                       },
+                       {
+                           ......,
+                           ......,
+                           ......
+                       }
+                   ],
+                   ......,
+                   ......,
+                   ......
+               }  
+           ]</code></pre>
+
+Observe that the **sitedetails** tag is an array, each element of which identifies a particular e-commerce site (eg. amazon.com or newegg.com) on which the product has been listed. Further, observe that each sitedetails array element has a **latestoffers** field; this field is also an array and represents the most recent price “offers” for the referenced product on the referenced site.
+
+**Part A** below tackles all fields that fall under the **sitedetails** tag, except for the **latestoffers** field, which will be dealt with in **Part B**.
+
+### **Part A**
+
+Fields listed in this section fall under the **sitedetails** tag and can queried in this form:
+
+<pre><code>GET https://api.semantics3.com/v1/products?q={"sitedetails":{"FIELDNAME1":"VALUE1","FIELDNAME2":"VALUE2"},"cat_id":"CAT_ID"}</code></pre>
+
+where FIELDNAME1 and FIELDNAME2 refer to specified field names and VALUE1 and VALUE2 are your query inputs.
+
+where FIELDNAME1 and FIELDNAME2 refer to specified field names and VALUE1 and VALUE2 are your query inputs.
+
+You may note that since sitedetails is represented as an array in product responses, each product contains multiple sitedetails elements. Hence, API query behaviour for queries made against this field are nuanced: for a given sitedetails query, the API returns return all products which contain atleast one site element that satisfies all of the FIELDNAME-VALUE filters specified in the query. If, for a given product, one site matches some of the FIELDNAME-VALUE filters and a second site matches the other FIELDNAME-VALUE filters then such a product will not be returned; atleast one site must match all query criteria.
+
+| Field Name  | Description  | Data Type    | Searchable | Query Behavior | Sample Query Snippet |
+|:-----------|:------------|:------------| :---------| :-------- | :-------------- |
+| *geo* | &#124;**DEPRECATED**&#124; Approximate geographical location at which the referenced site sells its products. &#124;**DEPRECATED – Please refer to the “geo” field in [Section 1](https://www.semantics3.com/docs/#section-1-universal-fields-37)**&#124;| String | N | - | - |
+| *listprice* |  	List price on the site. Typically, e-commerce sites present this value as the reference price against which a marked-down price is contrasted.| Double | Y | Range | {“sitedetails”:{“listprice”:{“gte”:569.99}}} |
+| *listprice_currency* | Currency associated with the listprice. Currency codes are returned in [ISO 4217](http://en.wikipedia.org/wiki/ISO_4217) format.| String | Y | Exact | {“sitedetails”:{“listprice”:{“gte”:569.99}}} |
+| *name* | Name of the website from which this data was obtained.| String | Y | Exact | {“sitedetails”:{“name”:”walmart.com”}} |
+| *offers_count* | &#124;**DEPRECATED**&#124; Total number of “offers” recorded for the referenced site, each of which is available through the [offers endpoint](https://www.semantics3.com/docs/#offers-price-histories-104). “Offers” are explained in detail in Part B of this section; be sure to carefully read the note marked “IMPORTANT” in Part B. &#124;**DEPRECATED**&#124; | Integer | Y | Range | {“sitedetails”:{“offers_count”:{“gte”:2}}} |
+| *recentoffers_count* | Number of “active” offers recorded when this site was last crawled. A value of “0″ indicates that the product is no longer available for purchase through that link. | Integer | Y | Range | {“sitedetails”:{“recentoffers_count”:{“lte”:2}}} |
+| *sku* | Site SKU of the website from which this data was obtained. If one SKU has multiple variations associated with it, then this field returns the SKU provided by the website appended with an underscore and a variation specific identifier. | String | Y | Exact | {“sitedetails”:{“name”: “amazon.com”, “sku”: “B0000CF3HB”}} |
+| *url* | URL pointing to the product page on the referenced site. | String | N | - | - |
+
+
+
+
+
+
 
 
 
