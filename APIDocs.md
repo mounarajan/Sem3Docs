@@ -501,6 +501,21 @@ where FIELDNAME refers to the field name and VALUE is your query input.
 
 In grasping the various metadata fields associated with each product, you may find it useful to know the nomenclature that dictates the naming of these fields:
 
+- Field names are always in lowercase.
+- Field names that end with “_id” represent unique identifiers (e.g. sem3_id and cat_id).
+- Field names that end with “_count” represent a local aggregate of the referenced item (e.g. recentoffers_count reflects the number of offers recorded in the most recent check on the given SKU).
+- Field names that end with “_total” represent a global aggregate of the referenced item (e.g. offers_total reflects the total number of offers across all websites).
+- Field names that start with “variation_” reference variations of the product (e.g. variation_id and variation_includeall).
+- All other field names, regardless of the number of words they comprise, contain no underscores, spaces or other separators (e.g. sitedetails, latestoffers, etc.).
+
+# 04 **Useful Query Parameters
+
+### Range Queries
+
+Range queries support the execution of ‘>’, ‘>=’, ‘<’ and ‘<=’ functions on numerical fields. Ranges can be specified in queries in the following manner:
+
+
+
 
 
 
