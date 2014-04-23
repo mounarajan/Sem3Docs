@@ -508,11 +508,71 @@ In grasping the various metadata fields associated with each product, you may fi
 - Field names that start with “variation_” reference variations of the product (e.g. variation_id and variation_includeall).
 - All other field names, regardless of the number of words they comprise, contain no underscores, spaces or other separators (e.g. sitedetails, latestoffers, etc.).
 
-# 04 **Useful Query Parameters
+# 04 **Useful Query Parameters**
 
 ### Range Queries
 
 Range queries support the execution of ‘>’, ‘>=’, ‘<’ and ‘<=’ functions on numerical fields. Ranges can be specified in queries in the following manner:
+
+<pre><code>GET https://api.semantics3.com/v1/products?q={"FIELDNAME":{"RANGEPARAM":VALUE"},"cat_id":CAT_ID}</code></pre>
+
+where **FIELDNAME** refers to the field name, **VALUE** is your query input and **RANGEPARAM** is one of the following:
+
+- **gt** (greater than)
+- **gte** (greater than or equal to)
+- **lt** (lesser than or equal to)
+- **lte** (lesser than or equal to)
+
+For example, the following query returns all “Electronics” products that weigh more than 1000 milligrams and less than or equal to 5000 milligrams:
+
+<pre><code>GET https://api.semantics3.com/v1/products?q={"weight":{"gt":1000,"lte":5000},"cat_id":13658}</code></pre>
+
+If a range parameter is not specified for a numerical field, then an exact match will be carried out instead. For example, the following query returns all “Electronics” products with atleast one offer of exactly 10 USD.
+
+<pre><code>GET https://api.semantics3.com/v1/products?q={"sitedetails":{"latestoffers":{"price":10,"currency":"USD"}}, "cat_id":13658}</code></pre>
+
+### Pagination: Limit 
+
+The number of products shown in your API response can be controlled by the limit query parameter. The **limit** field determines the number of products that will be shown per page for the given query. 
+
+For example, the following query returns “Electronics” products with brand names that match “Toshiba”, 10 at a time:
+
+<pre><code>GET https://api.semantics3.com/v1/products?q={"limit":10,"brand":"Toshiba","cat_id":13658}</code></pre>
+
+Limit is set to its maximum value of **10 by default**.
+
+### Pagination: Offset 
+
+The **offset** keyword refers to the number of results that must be skipped in the response space before **limit** number of products are returned. 
+
+For example, the following query:
+
+<pre><code>GET https://api.semantics3.com/v1/products?q={"offset":15,"limit":10,"brand":"Toshiba","cat_id":13658}</code></pre>
+
+returns elements 16-25 of all “Electronics” products that match the “Toshiba” brand name.
+
+The offset parameter, which is assumed to be “0″ if not specified, is commonly used for the purpose of iteratively paginating through the body of responses.
+
+### Sorting 
+
+By default, products in your API response are sorted by a combination of relevance to your query string, and importance of the product. 
+
+If you wish to **sort** by a specific field, you may do so in the following manner:
+
+<pre><code>GET https://api.semantics3.com/v1/products?q={"sort":{"FIELDNAME":"SORTPARAM"},"cat_id":CAT_ID,"ADDITIONALFIELDNAME":"ADDITIONALFIELDVALUE"}</code></pre>
+
+where **FIELDNAME** refers to the field name on which you wish to sort and **SORTPARAM** is one of the following:
+
+- **asc** (ascending order)
+- **dsc** (descending order)
+
+**ADDITIONALFIELDNAME** and **ADDITIONALFIELDVALUE** are placeholders to demonstrate that atleast one query metadata field is necessary.
+
+For example, the following query sorts its name search responses in ascending order of product name:
+
+<pre><code>GET https://api.semantics3.com/v1/products?q={"sort":{"name":"asc"},"name":"Toshiba","cat_id":13658}</code></pre>
+
+Note: Currently, sorting can only be performed along the **name** and **price** fields.
 
 
 
