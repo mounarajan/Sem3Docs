@@ -336,6 +336,17 @@ where FIELDNAME refers to the field name and VALUE is your query input. The cat_
 | *mpn* | Manufacturer part number of the product.| String | Y |  	Exact | {“mpn”:” 5053178147751″} |
 | *name* | Name of the product.| String | Y | Approximate | {“name”: “TOSHIBA L655D-S5076RD Laptop”} |
 | *offers_total* | **DEPRECATED** Total number of offers recorded for the given product, across all websites. An “offer” is a snapshot of the price of the product at a particular time. Offers vary on fields such as seller, price, availability and condition. This API (Products API) returns only a limited number offers in each response; the offers_total field doesn’t reflect this number, rather, it represents the total number of offers that have been gathered over time for the given product, all of which can be accessed through the [offers endpoint](https://www.semantics3.com/docs/#offers-price-histories-104). Additional details are provided in the [Section 2](https://www.semantics3.com/docs/#section-2-sitedetails-fields-38).**DEPRECATED**| Integer | Y | Range | {“offers_total”:{“gte”:3}} |
+| *price* | each product, made available in the [sitedetails section](https://www.semantics3.com/docs/#section-2-sitedetails-fields-38) and through the [offers endpoint](https://www.semantics3.com/docs/#offers-price-histories-104). However, you may face the need to attribute a single quick-and-dirty representative price point to each product. This “price” is selected from among all the offers and list prices associated with the product across several sites using several rules refined over time. It can be used for sorting by price, easily filtering by price and more. The currency associated with this field is reflected in the “price_currency”. Note that if you are not on one of our premium plans, the source of the “price” field may not be visible to you, since you will not have access to all sitedetails entries and associated offers.| Double | Y | Range | {“price”:{“gte”:49.99}} |
+| *price_currency* | Reflects the [ISO 4217](http://en.wikipedia.org/wiki/ISO_4217) currency value associated with the “price” field. This field has been added to resolve confusion over the “price” field. It is not query-able. Look to the “geo” field to restrict your searches to specific geographies.| String | N | - | - |
+| *size* | Size of the product.| String | Y |  	Approximate | {“size”:”small”} |
+| *upc* | 12-digit Universal Product Code (UPC) code of the product. The “upc” field is included for quick and intuitive reference; we recommend that you utilize the “gtins” field, also described in this table, as far as possible.| String | Y | Exact |{“upc”:”812942011958″} |
+| *updated_at* | Time at which the data in this product response was last refreshed from its parent sources.| Unix Timestamp | N | Range | 	{“updated_at”: {“gt”:1325397600}} |
+| *variation_id* | Often, the same product may be available in multiple colors, formats and sizes (this is particularly true of clothing and footwear). If a product returned by the API contains a ‘variation_id’ field, you can query by this field to retrieve all associated variations. Note, by default, unless variation_id is specified, responses to the products API contain only one variation of each product.| String | Y | Exact | 	{“variation_id”: “5VcVscjfRQoqCGiAIWqGoc”} |
+| *weight* | Weight of the product(In milligrams).| Double | Y | Range | {“weight”:{“gt”:250,”lt”:500}} |
+| *width* | Width of the product (in millimeters).| Double | Y | Range | {“width”:250} |
+
+
+
 
 
 
