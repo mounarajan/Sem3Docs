@@ -197,7 +197,7 @@ This filter will ensure that the search responses are limited to products that e
 
 - Have a cat_id that is a **child** of the specified cat_id (i.e., in this example, all children of “Electronics” including all the fields listed in the sample category tree above).
 
-Mosts queries to the Semantics3 products API require that you supply a cat_id field. Refer to this update[Update 1: Unique ID Lookups][] for details.	
+Mosts queries to the Semantics3 products API require that you supply a cat_id field. Refer to this [update][91] for details.	
 
 Currently, you can only search amongst one category of products at a time; we will be introducing the ability to search amongst multiple categories in future versions of the API. If you’d like urgent beta access to this functionality, please contact us at [api@semantics3.com](mailto:api@semantics3.com).
 
@@ -662,7 +662,7 @@ You may note that the fields below are highly similar to the “latestoffers” 
 
 # 06 **Updates**
 
-### Update 1: Unique ID Lookups 
+[91]: ### Update 1: Unique ID Lookups 
 
 For product searches, cat_id need not be specified if one of **UPC**, **EAN**, **sem3_id** or **variation_id** is provided.
 
