@@ -316,11 +316,11 @@ where FIELDNAME refers to the field name and VALUE is your query input. The cat_
 
 | Field Name  | Description  | Data Type    | Searchable | Query Behavior | Sample Query Snippet |
 |:-----------:|:------------:|:------------:| :---------:| :--------: | :--------------: |
-| This        |        This  |     This     |
-| column      |      column  |    column    |
-| will        |        will  |     will     |
-| be          |          be  |      be      |
-| left        |       right  |    center    |
+| sem3_id        |         	Internal Semantics3 ID of the product. You can also lookup multiple “sem3_id”s in one go as described in this update.  |     String     |
+| Y     |      Exact  |    {“sem3_id”: “1xXNQo9RkGkiymkoGegICq”}   |
+| brand        |       Brand name of the product. |     String     |
+|Y         |          	Approximate |      {“brand”:”Toshiba”}     |
+| cat_id       |        	Category ID of the category to which the product is assigned. Query by this cat_id to retrieve similar products.  |    String    | Y | Refer to the Categories section for details. | - |
 | aligned     |     aligned  |   aligned    |
 
 
