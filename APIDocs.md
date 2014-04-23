@@ -291,6 +291,45 @@ The following is a skeleton of a typical response obtained from the Semantics3 P
    ]
 }</code></pre>
 
+The response skeleton shows only some of the fields that the API returns, such as “brand”, “sitedetails”, “sem3_id” and more; this portion of the documentation details **all possible metadata fields** that can be found in JSON responses provided by this API.
+
+Most of the fields discussed in the following sections double up as **searchable query parameters**, i.e., they are both found as JSON fields in the API responses and can be supplied in the API request string to form queries. For example, the “brand” field shown in the response skeleton above can also be used as a query parameter in this manner:
+
+<pre><code>GET https://api.semantics3.com/v1/products?q={"cat_id":13658,"brand":"Toshiba"}</code></pre>
+
+### Key Notes 
+
+- All parameters (including those provided in the example column of the table below) are to be encapsulated into a single URL encoded JSON string appended to the Products API endpoint, i.e., https://api.semantics3.com/v1/products.
+- **Every query** to the products endpoint must contain [the “cat_id” field](https://www.semantics3.com/docs/#using-cat_id-34). **UPDATE 1**: This requirement has been relaxed for lookups with unique identifier fields (“UPC”, “EAN” and “sem3_id”), i.e., if one of these fields is provided, cat_id need not be provided. **UPDATE 2**: cat_id is not required for [free-text searches](https://www.semantics3.com/docs/#update-6-free-text-search-118) or for [cat_id independent searches](https://www.semantics3.com/docs/#update-7-more-cat_id-independent-fields-122).
+- The **searchable** column in the tables shown below specifies whether or not the referenced field doubles up as a searchable query parameter field. If **Y***, then the field can be specified in the search string and if **N***, it should not and is only a descriptive field in the response text.
+- The **query behavior** column in the tables below describes how the referenced field is processed internally when supplied as a search query parameter. String fields are wired to either return **exact** matches or **approximate** (queries are tokenized and then ranked by degree of relevance) matches. Integer fields support either **exact** matches or **range queries** (range queries are described in detail [here](https://www.semantics3.com/docs/#range-queries-41)).
+
+### Section 1 (Universal Fields) 
+
+The fields listed in this section are universal to all instances of the product, i.e., fields such as name, description, height and weight do not vary on the basis of who is selling the product and where the product is being sold.
+
+The following fields can be used in API queries in this form:
+
+<pre><code>GET https://api.semantics3.com/v1/products?q={"FIELDNAME":"VALUE","cat_id":"CAT_ID"}</code></pre>
+
+where FIELDNAME refers to the field name and VALUE is your query input. The cat_id field must always be provided (Update: Unless [UPC, EAN, sem3_id](https://www.semantics3.com/docs/#update-1-upc-lookups-91), [free-text search](https://www.semantics3.com/docs/#update-6-free-text-search-118) or a [cat_id independent field](https://www.semantics3.com/docs/#update-7-more-cat_id-independent-fields-122) is involved). 
+
+| Left align | Right align | Center align |
+|:-----------|------------:|:------------:|
+| This       |        This |     This     |
+| column     |      column |    column    |
+| will       |        will |     will     |
+| be         |          be |      be      |
+| left       |       right |    center    |
+| aligned    |     aligned |   aligned    |
+
+The fields described in the previous section are universal to the product, i.e., they do not change on the basis of who is selling the product and where the product is being sold.
+
+
+
+
+
+
 
 
 
