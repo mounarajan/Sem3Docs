@@ -316,8 +316,12 @@ where FIELDNAME refers to the field name and VALUE is your query input. The cat_
 
 | Field Name  | Description  | Data Type    | Searchable | Query Behavior | Sample Query Snippet |
 |:-----------|:------------|:------------| :---------| :-------- | :-------------- |
-| *sem3_id*        |         	Internal Semantics3 ID of the product. You can also lookup multiple “sem3_id”s in one go as described in this update.  |     String     | Y | Exact | {“sem3_id”: “1xXNQo9RkGkiymkoGegICq”} |
+| *sem3_id*        |         	Internal Semantics3 ID of the product. You can also lookup multiple “sem3_id”s in one go as described in this [update](https://www.semantics3.com/docs/#update-4-lookup-multiple-sem3_ids-101).  |     String     | Y | Exact | {“sem3_id”: “1xXNQo9RkGkiymkoGegICq”} |
 | *brand* | Brand name of the product. | String | Y | Approximate | {“brand”:”Toshiba”} |
+| *cat_id* | Category ID of the category to which the product is assigned. Query by this cat_id to retrieve similar products. | String | Y | Refer to the [Categories section](https://www.semantics3.com/docs/#using-cat_id-34) for details. | - |
+| *category* | Name of the category with which the product is associated. This is purely a text search, and unlike searches on “cat_id”, does not search among child nodes in the category tree. Oftentimes, this field provide more specificity than the category names available through the category tree. (Refer to the [Categories section](https://www.semantics3.com/docs/#using-cat_id-34) for specifics about cat_id searches). | String | Y | Approximate | {“category”:”television”} |
+| *color* | Color of the product. | String | Y | Approximate | {“color”:”green”} |
+
 
 
 
