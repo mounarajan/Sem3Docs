@@ -455,6 +455,14 @@ You may note that since latestoffers is represented as an array in product respo
 | *availability* | Status of the offer at the time at which it was recorded (e.g., available, out of stock, etc.).| String | Y | Approximate | {“sitedetails”:{“latestoffers”: {“availability”:”in stock”}}} |
 | *condition* | The condition of the item that is on offer (e.g., new, refurbished, used, etc.). This field is set only if explicitly mentioned in the source of the data; if this field is empty, the product can be assumed to be of condition “new”.| String | Y | Approximate | {“sitedetails”:{“latestoffers”:{“condition”:”new”}}} |
 | *currency* | Currency code associated with the specified price (and shipping price, if present). Currency codes are returned in [ISO 4217 format](http://en.wikipedia.org/wiki/ISO_4217).| String | Y | Exact | {“sitedetails”:{“latestoffers”:{“currency”:”USD”}}} |
+| *id* | Unique ID associated with the referenced offer.| String | Y | Exact | {“sitedetails”:{“latestoffers”:{“id”: “1X8rXs6zJc8AisiUEGiM6Q1341220026″}}} |
+| *price* | Price at which the product is sold at in the referenced offer. The price field is returned in standard denomination, i.e., all prices in USD are returned in dollars.| Double | Y | Range | {“sitedetails”:{“latestoffers”:{“price”:{“gt”:99.50}}}} |
+| *firstrecorded_at* | Time at which this offer was first recorded in Semantics3′s database.| Unix Timestamp | Y | Range | {“sitedetails”:{“latestoffers”:{“firstrecorded_at”:{“gt”:1325397600}}}} |
+| *lastrecorded_at* | Time at which this offer was last checked.| Unix Timestamp | Y | Range | {“sitedetails”:{“latestoffers”:{“lastrecorded_at”:{“gt”:1325397600}}}} |
+| *seller* | Name of the seller who has put up this offer for the product. This field is particularly relevant to sites that offer the products of third-party sellers.| String | Y | Approximate | {“sitedetails”:{“latestoffers”:{“seller”:”BestBuy”}}} |
+| *shipping* | Shipping price associated with this offer.| Double | Y |  	Range | {“sitedetails”:{“latestoffers”:{“shipping”:{“lte”:1.49}}}} |
+
+*Note*: As mentioned in Part A, all sitedetails queries, including those associated with latestoffers, are only used to generate relevant responses; they do not shorten the product response string to match your query.
 
 
 
