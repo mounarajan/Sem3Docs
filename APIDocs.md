@@ -481,6 +481,27 @@ where FIELDNAME refers to the field name and VALUE is your query input.
 | Field Name  | Description | Relevant Categories | Data Type    | Searchable | Query Behavior | Sample Query Snippet |
 |:-----------|:------------ | :------------|:------------| :---------| :-------- | :-------------- |
 | *actor* | Actor(s) of the movie/TV show. Multiple values are separated by commas. | Movies & TV [15532] | String | Y | Approximate | {“actor”:”Sean Connery”} |
+| *artist* | Arist(s) associated with the referenced music item. | Music [18735] | String | Y | Approximate | {“artist”:”Ravi Shankar”} |
+| *author* | Author of the book. | Books [12597] | String | Y | Approximate | {“author”:”Tolkien”} |
+| *department* | Department under which the product falls. | Baby Products [21995], Beauty [13157], Clothing & Accessories [17366] | String | Y | Approximate | {“department”:”mens”} |
+| *director* | Director(s) of the movie/TV show. Multiple values are separated by commas. | Movies & TV [15532] | String | Y | Approximate | {“director”:”James Cameron”} |
+| *format* | Format in which the product is delivered. | Books [12597], Movies & TV [15532], Music [18735], Video Games [11932] | String | Y | Approximate | {“format”:”cd”} |
+| *genre* | Genre associated with the product. | Video Games [11932] | String | Y | Approximate | {“genre”:”Adventure Games”} |
+| *label* | Record (label) associated with the item of music. | Music [18735] | String | Y | Approximate | {“label”:”Sony Music”} |
+| *language* | Language in which the contents of the product are delivered. | Books [12597], Movies & TV [15532], Music [18735] | String | Y | Approximate | {“language”:”English”} |
+| *operatingsystem* | Operating system of the product. | Mobile Phones [915], Software [10539] | String | Y | Approximate | {“operatingsystem: “Windows”} |
+| *platform* | Platform (typically software) on which the product runs.| Software [10539], Video Games [11932] | String | Y | Approximate |  	{“platform”:”mac osx 10.7″} |
+| *producer* | Producer(s) of the movie/TV show. Multiple values are separated by commas.| Movies & TV [15532] | String | Y | Approximate | {“producer”:”George Lucas”} |
+| *publisher* | Publisher of the book.| Books [12597] | String | Y | Approximate | {“publisher”:”Oxford University Press”} |
+| *runningtime* | Running time, in minutes, of the movie/TV show.| Movies & TV [15532] | String | Y | Approximate |  	{“runningtime”:{“lte”:100}} |
+| *studio* | Studio associated with the movie/TV show.| Movies & TV [15532] | String | Y | Approximate | {“studio”:”Walt Disney”} |
+| *writer* | Writer(s) of the movie/TV show. Multiple values are separated by commas.| Movies & TV [15532] | String | Y | Approximate | {“writer”:”Woody Allen”} |
+
+### Nomenclature 
+
+In grasping the various metadata fields associated with each product, you may find it useful to know the nomenclature that dictates the naming of these fields:
+
+
 
 
 
