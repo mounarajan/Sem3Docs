@@ -464,6 +464,26 @@ You may note that since latestoffers is represented as an array in product respo
 
 *Note*: As mentioned in Part A, all sitedetails queries, including those associated with latestoffers, are only used to generate relevant responses; they do not shorten the product response string to match your query.
 
+### Section 3 (Category Specific Fields) 
+
+The fields listed in this section are **applicable only to some categories** in the category tree.
+
+The table below contains an additional column – **relevant categories** – which identifies the categories to which the referenced field is applicable. The categories listed in this column can be derived by searching the tree with “parent_cat_id” set to 1, as demonstrated [here](https://www.semantics3.com/docs/#category-tree-endpoint-35).
+
+*Note*: Each of the following fields is applicable not only to its referenced category/categories but also to **all of its children** in the category tree. For example, the “department” field (refer to the table below) can be used to query both products that are tagged to the “Clothing & Accessories” category (cat_id 17366) as well as to products that are tagged to categories that are children of the “Clothing & Accessories” category; a list of these children can be extracted by recursively [querying the category tree](https://www.semantics3.com/docs/#category-tree-endpoint-35) with parent_cat_id set to 17366. 
+
+These fields can be used in API queries in this form:
+
+<pre><code>GET https://api.semantics3.com/v1/products?q={"FIELDNAME":"VALUE","cat_id":"CAT_ID"}</code></pre>
+
+where FIELDNAME refers to the field name and VALUE is your query input.
+
+| Field Name  | Description | Relevant Categories | Data Type    | Searchable | Query Behavior | Sample Query Snippet |
+|:-----------|:------------ | :------------|:------------| :---------| :-------- | :-------------- |
+| *actor* | Actor(s) of the movie/TV show. Multiple values are separated by commas. | Movies & TV [15532] | String | Y | Approximate | {“actor”:”Sean Connery”} |
+
+
+
 
 
 
