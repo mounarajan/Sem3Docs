@@ -330,8 +330,7 @@ where FIELDNAME refers to the field name and VALUE is your query input. The cat_
 | *height* | Height of the product (in millimeters). | Double | Y | Range | {“height”:{“gt”:250}} |
 | *images* | Array of URLs pointing to images of the product. These images are hosted on Semantics3′s servers. | String (Array) | N | - | - |
 | *images_total* | Number of image URLs contained in the images array. Use this field if you wish to restrict your responses to products that have your desired number of associated image URLs.| Integer | Y | Range | {“images_total”:{“gte”:2}} |
-| *length* | Length of the product
-(in millimeters).| Double | Y | Range | {“length”:{“lt”:250}} |
+| *length* | Length of the product(in millimeters).| Double | Y | Range | {“length”:{“lt”:250}} |
 | *manufacturer* | Manufacturer of the product.| String | Y | Approximate |  	{“manufacturer”:”Atlas”} |
 
 
