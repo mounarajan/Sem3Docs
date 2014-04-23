@@ -574,7 +574,7 @@ For example, the following query sorts its name search responses in ascending or
 
 Note: Currently, sorting can only be performed along the **name** and **price** fields.
 
-# 05 **Offers (Price) Histories
+# 05 **Offers (Price) Histories**
 
 ### Offers Endpoint 
 
@@ -660,7 +660,150 @@ You may note that the fields below are highly similar to the “latestoffers” 
 | *sitedetails_name* | Name of the site on which the offer was detected. | String | Y | Exact | {“sitedetails_name”:”frys.com”} |
 | *sku* | List of SKUs associated with the offer. This field is an array since multiple SKUs from the same domain may share the same offer; rather than create duplicates, we compress the entries into one deduplicated offer. “sku” was introduced in the early half of 2013, hence some of the older offers may not carry a SKU field. Since the offers endpoint also returns “sitedetails_name”, “sku” and “sitedetails_name” together can be used as an effective canonicalized replacement for URL. | String (Array) | Y | Exact | {“sku”:”17472709″} |
 
+# 06 **Updates**
 
+### Update 1: Unique ID Lookups 
+
+For product searches, cat_id need not be specified if one of **UPC**, **EAN**, **sem3_id** or **variation_id** is provided.
+
+Previously, for example, UPC lookups could be run as follows:
+
+<pre><code>GET https://api.semantics3.com/v1/products?q={"upc":"883974958450","cat_id":"13658"}</code></pre>
+
+Now, UPC lookups can be run without specifying cat_id:
+
+<pre><code>GET https://api.semantics3.com/v1/products?q={"upc":"883974958450"}</code></pre>
+
+However, we encourage you to provide cat_id, when available, for quicker lookups.
+
+### Update 2: Exclude Irrelevant Results 
+
+While searching for a specific group of products (e.g. LCD Televisions), you may come across related products (e.g.: LCD Television stands) which aren’t of interest to you and reduce the relevance of your API results. While choosing a more pertinent cat_id from the category tree solves this problem in most cases, oftentimes, you may choose to employ exclusion filters.
+
+Exclusion filters, which can currently only be applied to the product **name** field, exclude products that match specified words from your search results. Thus, where previously products could only be queried by name as follows:
+
+<pre><code>GET https://api.semantics3.com/v1/products?q={"cat_id":"13813","name":"LCD"}</code></pre>
+
+they now also support queries in the form of:
+
+<pre><code>GET https://api.semantics3.com/v1/products?q={"cat_id":"13813","name":{"include:"LCD","exclude":"stand protector accessory kit"}}</code></pre>
+
+The above query will include all product entries that have the word “LCD” in their names but don’t contain the words “protector”, “acccessory”, “kit” or “stand”. Note, when an **exclude** filter is applied, the original name query is to be placed inside the **include** tag.
+
+### Update 3: Include All Variations 
+
+Products may have several associated variations, differentiated by fields like color, size etc. For instance, one model of a shoe (the product) may be available in different size-color combinations (its variations). By default, product API queries (except lookup queries – those that involve [UPC, EAN, sem3_id](https://www.semantics3.com/docs/#update-1-upc-lookups-91), variation_id, [free-text search](https://www.semantics3.com/docs/#update-6-free-text-search-118) or [cat_id independent fields](https://www.semantics3.com/docs/#update-7-more-cat_id-independent-fields-122)) return only one random variation of each matching product.
+
+For example, this query returns only 4 types of shoes for the specified brand, even though each shoe is offered in several colors and sizes:
+
+<pre><code>GET https://api.semantics3.com/v1/products?q={"cat_id":"4378","brand":"Bibi Mimi"}</code></pre>
+
+You may, however, choose to retrieve all color and size combinations (variations) of each of these shoes as follows:
+
+<pre><code>GET https://api.semantics3.com/v1/products?q={"cat_id":"4378","brand":"Bibi Mimi","variation_includeall":1}</code></pre>
+
+In this way, the **variation_includeall** parameter can be used to include product variations in your query results.
+
+### Update 4: Lookup Multiple “sem3_id”s 
+
+You can now retrieve data for upto 10 “**sem3_id”**s in one API query as follows:
+
+<pre><code>GET https://api.semantics3.com/v1/products?q={"sem3_id":["2NnNAztqoGeoQGeSya0y4K", "0xzFQX9Ss8ecMwkMy0C8Ui", "1XgtmTtMgWswmYaGS6Kgyc"]}</code></pre>
+
+This type of query can be particularly handy if you choose to cache “sem3_id”s and make live queries from your website/app to this API.
+
+### Update 5: Prettify Time Fields 
+
+By default, time fields are represented in unix timestamp format (e.g. {“updated_at” : 1357125766}).
+
+Now, you can choose to retrieve all time fields in ISO string format (e.g. {“updated_at” : “2013-01-02T11:22:46Z”}) by setting the “**isotime”** parameter to 1 as follows:
+
+<pre><code>GET https://api.semantics3.com/v1/products?q={"cat_id":13658,"isotime":1}</code></pre>
+
+### Update 6: Free-Text Search 
+
+Search the database, as you would a search engine:
+
+<pre><code>GET https://api.semantics3.com/v1/products?q={"search":"Apple Macbook"}</code></pre>
+
+Filter search results by products from a specific **brand** as follows:
+
+<pre><code>GET https://api.semantics3.com/v1/products?q={"search":"polo shirts","brand":"ralph lauren"}</code></pre>
+
+You can also specify a list of **cat_id** numbers that you’d like to restrict your search to (e.g. 18792 => men’s clothing and 17114 => boys’ clothing):
+
+<pre><code>GET https://api.semantics3.com/v1/products?q={"search":"polo shirts","brand":"ralph lauren","cat_id":[17114,18792]}</code></pre>
+
+Free-text searches are fundamentally “OR” queries, i.e., they will return all products that contain atleast one of the “search” terms, though results most relevant to your search will be ranked the highest.
+
+Note: Free-text searches can be combined with all of the fields listed in [update 7](https://www.semantics3.com/docs/#update-7-more-cat_id-independent-fields-122). They can also be combined with **cat_id**, as shown above, and can be sorted by **price**. All other functionality is restricted.
+
+### Update 7: More “cat_id” Independent Fields 
+
+The cat_id field has, thus far, been mandatory unless one of the following fields is specified (refer to [update 1](https://www.semantics3.com/docs/#update-1-upc-lookups-91) and [update 6](https://www.semantics3.com/docs/#update-6-free-text-search-118)):
+
+- **upc**
+- **ean**
+- **sem3_id**
+- **variation_id**
+- **search**
+
+Following several requests from the developer community, the following fields have been added to this list:
+
+- **name**
+- **brand**
+- **manufacturer**
+- **model**
+- **mpn**
+- **price**
+- **color**
+- **size**
+- **gtins**
+
+For example, henceforth, you can search by **brand** without having to specify a cat_id:
+
+<pre><code>GET https://api.semantics3.com/v1/products?q={"brand":"Dell"}</code></pre>
+
+*Note*: cat_id independent searches can be combined with [unique ID fields](https://www.semantics3.com/docs/#update-1-upc-lookups-91) and [free-text search](https://www.semantics3.com/docs/#update-6-free-text-search-118), or they can be sorted by **price**. To avail of any other functionality, you must specify a **cat_id**.
+
+### Update 8: “url”, “site” and “fields” queries 
+
+Introducing three handy API queries:
+
+**URL Lookup**: Enter e-commerce URLs in any form to retrieve associated product(s). Your input URLs need not be cleaned or canonicalized. [More details](http://blog.semantics3.com/competitors-price-histories-and-product-details-using-just-a-purchase-url/). Additional note: while the query returns only those product(s) associated with the queried URL, the sitedetails field in your response might contain additional URLs associated with the product. In other words, while the URL search returns products linked to the queried URL, it also returns additional URLs associated with these matched products.
+
+<pre><code>GET https://api.semantics3.com/v1/products?q={"url":"http://www.costcentral.com/proddetail/Apple_MacBook_Pro_with_Retina_display/MD212LLA/11804567"}</code></pre>
+
+**Site Search**: Retrieve the product catalogue of a specific domain. If you can’t find the domain you’re looking for, [contact us](mailto:contactus@semantics3.com). Additional note: while the query returns only those product(s) associated with the queried site name, the sitedetails field in your response might contain additional sites associated with the product. In other words, while the site search returns products linked to the queried site, it also returns additional sites associated with these matched products.
+
+<pre><code>GET https://api.semantics3.com/v1/products?q={"site":"costcentral.com"}</code></pre>
+
+**Fields Restriction**: Restrict API results to only those fields that interest you, by specifying an array of desired fields. sem3_id and cat_id are included in all results by default.
+
+<pre><code>GET https://api.semantics3.com/v1/products?q={"site":"costcentral.com","fields":["name","brand"]}</code></pre>
+
+### Update 9: Geo/Country Support 
+
+We’re introducing data from geographical regions other than the United States. For this reason, we’ve introduced the **geo** parameter, which can be used to specify your geographical region of choice.
+
+For instance, this query will return Apple products and associated offers for the United Kingdom: 
+
+<pre><code>GET https://api.semantics3.com/v1/products?q={"brand":"apple","geo":"uk"}</code></pre>
+
+The **geo** field currently supports the following values:
+
+- “usa” -> United States of America [Default]
+- “uk” -> United Kingdom
+
+We recommend that you explicitly include the geo tag in all queries that you make to the API.
+
+### Update 10: Logical AND/OR Operators [Beta] 
+
+The logical operators && and || can be used with any field that has “Query Behavior” marked as “Approximate”. You can now run queries as follows:
+
+<pre><code>GET https://api.semantics3.com/v1/products?q={"name":"polo && ralph","color":"black || white"}</code></pre>
+
+Currently, we do no support compound/nested logical statements.
 
 
 
