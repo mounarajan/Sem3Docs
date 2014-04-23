@@ -314,16 +314,14 @@ The following fields can be used in API queries in this form:
 
 where FIELDNAME refers to the field name and VALUE is your query input. The cat_id field must always be provided (Update: Unless [UPC, EAN, sem3_id](https://www.semantics3.com/docs/#update-1-upc-lookups-91), [free-text search](https://www.semantics3.com/docs/#update-6-free-text-search-118) or a [cat_id independent field](https://www.semantics3.com/docs/#update-7-more-cat_id-independent-fields-122) is involved). 
 
-| Left align | Right align | Center align |
-|:-----------|------------:|:------------:|
-| This       |        This |     This     |
-| column     |      column |    column    |
-| will       |        will |     will     |
-| be         |          be |      be      |
-| left       |       right |    center    |
-| aligned    |     aligned |   aligned    |
-
-The fields described in the previous section are universal to the product, i.e., they do not change on the basis of who is selling the product and where the product is being sold.
+| Field Name  | Description  | Data Type    | Searchable | Query Behavior | Sample Query Snippet |
+|:-----------:|:------------:|:------------:| :---------:| :--------: | :--------------: |
+| This        |        This  |     This     |
+| column      |      column  |    column    |
+| will        |        will  |     will     |
+| be          |          be  |      be      |
+| left        |       right  |    center    |
+| aligned     |     aligned  |   aligned    |
 
 
 
