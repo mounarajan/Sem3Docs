@@ -428,6 +428,34 @@ You may note that since sitedetails is represented as an array in product respon
 | *sku* | Site SKU of the website from which this data was obtained. If one SKU has multiple variations associated with it, then this field returns the SKU provided by the website appended with an underscore and a variation specific identifier. | String | Y | Exact | {“sitedetails”:{“name”: “amazon.com”, “sku”: “B0000CF3HB”}} |
 | *url* | URL pointing to the product page on the referenced site. | String | N | - | - |
 
+*Note*: As with all queries in this API, queries made using the sitedetails fields can only be used to **search for relevant products**. They **do not shorten the product response string** to match your query.
+
+For instance, the following query
+
+<pre><code>GET https://api.semantics3.com/v1/products?q={"cat_id":13658,"sitedetails":{"name":"target.com"}</code></pre>
+
+returns “Electronics” (cat_id 13658) products that are or were sold on target.com, but the response string will also contain sitedetails of all the other sites that sell each product. Functionality for restricting response strings is coming soon.
+
+### **Part B**
+
+Fields listed in this section fall under the **latestoffers** tag, which is an important child of the **sitedetails** tag.
+
+Each offer in the **latestoffers** array represents the price of a particular product, at a given time, on a particular website and further characterized by fields such as availability and condition. These fields can be queried in this form:
+
+<pre><code>GET https://api.semantics3.com/v1/products?q={"sitedetails":{"latestoffers":{"FIELDNAME1":"VALUE1"},{"FIELDNAME2":"VALUE2"}}, "cat_id":"CAT_ID"}</code></pre>
+
+where FIELDNAME1 and FIELDNAME2 refer to specified field names and VALUE1 and VALUE2 are your query inputs.
+
+You may note that since latestoffers is represented as an array in product responses, each product contains multiple latestoffers. Hence, API query behaviour for queries made against this field are nuanced: for a given latestoffers query, the API returns return all products which contain atleast one latest/recent offer that satisfies all of the FIELDNAME-VALUE filters specified in the query. If, for a given product, one offer matches some of the FIELDNAME-VALUE filters and a second offer matches the other FIELDNAME-VALUE filters then such a product will not be returned; atleast one offer must match all query criteria.
+
+**IMPORTANT**: The latestoffers array is **capped to 3 entries per site**, i.e., for each website represented in the “sitedetails” array, only the latest 3 offers will be displayed and made available for querying. To retrieve all offers associated with a particular product, use the [offers endpoint](https://www.semantics3.com/docs/#offers-price-histories-104).
+
+| Field Name  | Description  | Data Type    | Searchable | Query Behavior | Sample Query Snippet |
+|:-----------|:------------|:------------| :---------| :-------- | :-------------- |
+| *availability* | Status of the offer at the time at which it was recorded (e.g., available, out of stock, etc.).| String | Y | Approximate | {“sitedetails”:{“latestoffers”: {“availability”:”in stock”}}} |
+| *condition* | The condition of the item that is on offer (e.g., new, refurbished, used, etc.). This field is set only if explicitly mentioned in the source of the data; if this field is empty, the product can be assumed to be of condition “new”.| String | Y | Approximate | {“sitedetails”:{“latestoffers”:{“condition”:”new”}}} |
+| *currency* | Currency code associated with the specified price (and shipping price, if present). Currency codes are returned in [ISO 4217 format](http://en.wikipedia.org/wiki/ISO_4217).| String | Y | Exact | {“sitedetails”:{“latestoffers”:{“currency”:”USD”}}} |
+
 
 
 
