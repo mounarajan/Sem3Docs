@@ -321,6 +321,22 @@ where FIELDNAME refers to the field name and VALUE is your query input. The cat_
 | *cat_id* | Category ID of the category to which the product is assigned. Query by this cat_id to retrieve similar products. | String | Y | Refer to the [Categories section](https://www.semantics3.com/docs/#using-cat_id-34) for details. | - |
 | *category* | Name of the category with which the product is associated. This is purely a text search, and unlike searches on “cat_id”, does not search among child nodes in the category tree. Oftentimes, this field provide more specificity than the category names available through the category tree. (Refer to the [Categories section](https://www.semantics3.com/docs/#using-cat_id-34) for specifics about cat_id searches). | String | Y | Approximate | {“category”:”television”} |
 | *color* | Color of the product. | String | Y | Approximate | {“color”:”green”} |
+| *created_at* | Time at which this product entry was made in Semantics3’s database. | Unix Timestamp | Y | Range | {“created_at”: {“gt”:1325397600}} |
+| *description* | Detailed description of the product. | String | Y | Approximate | {“description”:”brand new laptop replacement screen”} |
+| *ean* | 13-digit International Article Number (EAN) of the product. International Standard Book Numbers (ISBN) are also displayed against the ean field, since ISBN-13 is a subset of EAN. The “ean” field is included for quick and intuitive reference; we recommend that you utilize the “gtins” field, also described in this table, as far as possible. | String | Y | Exact | {“ean”:”5053178147751″} |
+| *features* | Features of the product, in hash (key-value) form. Values are always in scalar form, except when the key is “blob; all unstructured features data is stored as a value of the blob key in either array or scalar form. | String (Hash) | Y | Approximate | {“features”:”aspherical”} |
+| *gtins* | 14-digit Global Trade Item Numbers (GTINs) associated with the product. UPCs (GTIN-12) and EANs (GTIN-13) are subsets of the GTIN-14 system. A product may have multiple UPC/EAN/GTIN IDs associated with it; while the “upc” and “ean” fields display any one of these IDs for quick use, the GTIN field displays all associated IDs in an array. A search against the “gtins” field is equivalent to a search against the “upc” or “ean” field. | String (Array) | Y | Exact | {“gtins”:”00812942011958″} |
+| *geo* | Country to which you would like to limit your results. [Only two values](https://www.semantics3.com/docs/index.php/section/updates/update-9-geocountry-support/) are valid for this field: “usa” (default) and “uk”. At the moment, each product is linked to only one country; however, this field is returned as an array to accommodate the future possibility of a one product to many countries relationships. | String (Array) | Y | Exact | {“geo”:”usa”} |
+| *height* | Height of the product (in millimeters). | Double | Y | Range | {“height”:{“gt”:250}} |
+| *images* | Array of URLs pointing to images of the product. These images are hosted on Semantics3′s servers. | String (Array) | N | - | - |
+| *images_total* | Number of image URLs contained in the images array. Use this field if you wish to restrict your responses to products that have your desired number of associated image URLs.| Integer | Y | Range | {“images_total”:{“gte”:2}} |
+| *length* | Length of the product
+(in millimeters).| Double | Y | Range | {“length”:{“lt”:250}} |
+
+
+
+
+
 
 
 
