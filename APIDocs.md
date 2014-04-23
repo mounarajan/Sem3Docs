@@ -197,7 +197,7 @@ This filter will ensure that the search responses are limited to products that e
 
 - Have a cat_id that is a **child** of the specified cat_id (i.e., in this example, all children of “Electronics” including all the fields listed in the sample category tree above).
 
-Mosts queries to the Semantics3 products API require that you supply a cat_id field. Refer to this [update][91] for details.	
+Mosts queries to the Semantics3 products API require that you supply a cat_id field. Refer to this [update](https://www.semantics3.com/docs/#update-1-upc-lookups-91) for details.	
 
 Currently, you can only search amongst one category of products at a time; we will be introducing the ability to search amongst multiple categories in future versions of the API. If you’d like urgent beta access to this functionality, please contact us at [api@semantics3.com](mailto:api@semantics3.com).
 
@@ -661,8 +661,8 @@ You may note that the fields below are highly similar to the “latestoffers” 
 | *sku* | List of SKUs associated with the offer. This field is an array since multiple SKUs from the same domain may share the same offer; rather than create duplicates, we compress the entries into one deduplicated offer. “sku” was introduced in the early half of 2013, hence some of the older offers may not carry a SKU field. Since the offers endpoint also returns “sitedetails_name”, “sku” and “sitedetails_name” together can be used as an effective canonicalized replacement for URL. | String (Array) | Y | Exact | {“sku”:”17472709″} |
 
 # 06 **Updates**
-
-[91]: ### Update 1: Unique ID Lookups 
+ 
+### Update 1: Unique ID Lookups 
 
 For product searches, cat_id need not be specified if one of **UPC**, **EAN**, **sem3_id** or **variation_id** is provided.
 
