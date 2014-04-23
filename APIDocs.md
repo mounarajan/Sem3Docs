@@ -574,6 +574,96 @@ For example, the following query sorts its name search responses in ascending or
 
 Note: Currently, sorting can only be performed along the **name** and **price** fields.
 
+# 05 **Offers (Price) Histories
+
+### Offers Endpoint 
+
+We now track and provide offer histories for the products in our database. Each product may contain multiple offer entries, differentiated by change in price over time, name of seller and website on which the product is sold and condition of the product. This data can be used to detect price changes patterns and monitor competitors, among other uses. 
+
+Offer history data can be obtained by querying the offers endpoint as follows:
+
+<pre><code>GET https://api.semantics3.com/v1/offers?q={"sem3_id":"4znupRCkN6w2Q4Ke4s6sUC"}</code></pre>
+
+Here is an example of a response that can be obtained from the offers endpoint. 
+
+<pre><code>"results" : [
+    {
+      "id": "792d8B2B1ckO4Mw8UyOqs6",
+      "price": "42.09",
+      "condition": "New",
+      "firstrecorded_at": 1355077000,
+      "lastrecorded_at": 1356038000,
+      "sitedetails_name": "amazon.com",
+      "sem3_id": "4znupRCkN6w2Q4Ke4s6sUC",
+      "seller": "LFleurs Blooming Deals",
+      "shipping" : "4.99",
+      "currency": "USD",
+      "availability": "Ships in 1-2 business days. Ships from TX, United States. Expedited shipping available."
+    },
+    {
+      "id": "5X7DzxfvDEu06MO0CkUuM6",
+      "price": "39.99",
+      "firstrecorded_at": 1349398900,
+      "lastrecorded_at": 1349398900,
+      "sitedetails_name": "walmart.com",
+      "sem3_id": "4znupRCkN6w2Q4Ke4s6sUC",
+      "seller": "Walmart",
+      "currency": "USD",
+      "availability": "In stock"
+    },
+    {
+      "id": "6Fro0ghqb2GoYs2Omo0k2A",
+      "price": "39.95",
+      "shipping" : "2.99",
+      "firstrecorded_at": 1348654600,
+      "lastrecorded_at": 1348654600,
+      "sitedetails_name": "frys.com",
+      "sem3_id": "4znupRCkN6w2Q4Ke4s6sUC",
+      "seller": "Frys",
+      "currency": "USD",
+      "availability": "Shipping: In stock, ships same Business Day"
+    },
+   ......,
+   ......,
+   ......,
+   ......,
+   ......,
+   ......,
+   ......,
+  ]</code></pre>
+
+*Note*: Offer responses are automatically sorted by recency. Currently, they cannot be sorted by any other field.
+
+The frequency at which a product’s offers data is updated is determined by our internal product importance ranking algorithm. If you’re interested in a group of products which haven’t been updated recently, please contact us at [support@semantics3.com](mailto:support@semantics3.com) and we’ll take necessary action.
+
+### Metadata Fields 
+
+All queries to the offers endpoint must contain the “sem3_id” of the product whose offers are the be retrieved. Thus, all queries must be in this form:
+
+<pre><code>GET https://api.semantics3.com/v1/offers?q={"sem3_id":"SEM3_ID","FIELDNAME":"VALUE"}</code></pre>
+
+where FIELDNAME and VALUE refer to metadata field names and values used to filter the response string. Each of these metadata fields is described in the following table.
+
+You may note that the fields below are highly similar to the “latestoffers” metadata fields described in Part B of [this section](https://www.semantics3.com/docs/#section-2-sitedetails-fields-38).
+
+| Field Name  | Description  | Data Type    | Searchable | Query Behavior | Sample Query Snippet |
+|:-----------|:------------|:------------| :---------| :-------- | :-------------- |
+| *availability* | Status of the offer at the time at which it was recorded (e.g., available, out of stock, etc.).  | String | Y | Approximate | {“availability”:”in stock”} |
+| *condition* | The condition of the item that is on offer (e.g., new, refurbished, used, etc.).  | String | Y | Approximate | {“condition”:”new”} |
+| *currency* | Currency code associated with the specified price. Currency codes are returned in [ISO 4217](http://en.wikipedia.org/wiki/ISO_4217) format. This field restricts responses to products that are sold natively in USD; it **does not** perform currency conversion.  | String | Y | Exact | {“currency”:”USD”} |
+| *id* | Unique ID associated with the referenced offer.  | String | Y | Exact |  	{“id”: “1X8rXs6zJc8AisiUEGiM6Q1341220026″} |
+| *price* | Price of the product in the referenced offer. The price field is returned in standard denomination, i.e., all prices in USD are returned in dollars. | Double | Y | Range | {“price”:{“gt”:99.50}} |
+| *firstrecorded_at* | Time at which this offer was first recorded in Semantics3′s database. | Unix Timestamp | Y | Range | {“firstrecorded_at”:{“gt”:1325397600}} |
+| *lastrecorded_at* | Time at which this offer was last checked. All responses to the offers endpoint are sorted by this field. This field can be of use if you wish to restrict your responses only to offers gathered ‘x’ hours in the past. | Unix Timestamp | Y | Range | {“lastrecorded_at”:{“gt”:1325397600}} |
+| *seller* | Name of the seller who has put up this offer for the product. While querying, you may choose to provide multiple seller names in the form of an array to restrict your offers to any one among a specific group of sellers. | String/String Array | Y | Approximate | {“seller”:["LFleurs","Frys","Walmart"]} |
+| *shipping* | Shipping price associated with the referenced offer. | Double | Y | Range | {“shipping”:{“lte”:1.49}} |
+| *sitedetails_name* | Name of the site on which the offer was detected. | String | Y | Exact | {“sitedetails_name”:”frys.com”} |
+| *sku* | List of SKUs associated with the offer. This field is an array since multiple SKUs from the same domain may share the same offer; rather than create duplicates, we compress the entries into one deduplicated offer. “sku” was introduced in the early half of 2013, hence some of the older offers may not carry a SKU field. Since the offers endpoint also returns “sitedetails_name”, “sku” and “sitedetails_name” together can be used as an effective canonicalized replacement for URL. | String (Array) | Y | Exact | {“sku”:”17472709″} |
+
+
+
+
+
 
 
 
