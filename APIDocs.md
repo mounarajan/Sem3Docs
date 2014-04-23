@@ -315,13 +315,9 @@ The following fields can be used in API queries in this form:
 where FIELDNAME refers to the field name and VALUE is your query input. The cat_id field must always be provided (Update: Unless [UPC, EAN, sem3_id](https://www.semantics3.com/docs/#update-1-upc-lookups-91), [free-text search](https://www.semantics3.com/docs/#update-6-free-text-search-118) or a [cat_id independent field](https://www.semantics3.com/docs/#update-7-more-cat_id-independent-fields-122) is involved). 
 
 | Field Name  | Description  | Data Type    | Searchable | Query Behavior | Sample Query Snippet |
-|:-----------:|:------------:|:------------:| :---------:| :--------: | :--------------: |
-| sem3_id        |         	Internal Semantics3 ID of the product. You can also lookup multiple “sem3_id”s in one go as described in this update.  |     String     |
-| Y     |      Exact  |    {“sem3_id”: “1xXNQo9RkGkiymkoGegICq”}   |
-| brand        |       Brand name of the product. |     String     |
-|Y         |          	Approximate |      {“brand”:”Toshiba”}     |
-| cat_id       |        	Category ID of the category to which the product is assigned. Query by this cat_id to retrieve similar products.  |    String    | Y | Refer to the Categories section for details. | - |
-| aligned     |     aligned  |   aligned    |
+|:-----------|:------------|:------------| :---------| :-------- | :-------------- |
+| *sem3_id*        |         	Internal Semantics3 ID of the product. You can also lookup multiple “sem3_id”s in one go as described in this update.  |     String     | Y | Exact | {“sem3_id”: “1xXNQo9RkGkiymkoGegICq”} |
+| *brand* | Brand name of the product. | String | Y | Approximate | {“brand”:”Toshiba”} |
 
 
 
